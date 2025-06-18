@@ -61,6 +61,7 @@ spec:
                     - notebook
                     - synthetics_api_test
                     - synthetics_browser_test
+                    - logs_metric
                   type: string
               required:
                 - jsonSpec

@@ -1,0 +1,27 @@
+apiVersion: datadoghq.com/v1alpha1
+kind: DatadogGenericResource
+metadata:
+  name: datadoggenericresource-logs-metric-sample
+spec:
+  type: logs_metric
+  jsonSpec: |-
+    {
+      "data": {
+        "type": "logs_metrics",
+        "id": "error_rate_by_service",
+        "attributes": {
+          "filter": {
+            "query": "status:error"
+          },
+          "compute": {
+            "aggregation_type": "count"
+          },
+          "group_by": [
+            {
+              "path": "service",
+              "tag_name": "service"
+            }
+          ]
+        }
+      }
+    }

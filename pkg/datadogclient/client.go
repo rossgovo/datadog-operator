@@ -15,6 +15,7 @@ import (
 
 	datadogapi "github.com/DataDog/datadog-api-client-go/v2/api/datadog"
 	datadogV1 "github.com/DataDog/datadog-api-client-go/v2/api/datadogV1"
+	datadogV2 "github.com/DataDog/datadog-api-client-go/v2/api/datadogV2"
 	"github.com/go-logr/logr"
 
 	"github.com/DataDog/datadog-operator/pkg/config"
@@ -95,10 +96,11 @@ func InitDatadogDashboardClient(logger logr.Logger, creds config.Creds) (Datadog
 }
 
 type DatadogGenericClient struct {
-	SyntheticsClient *datadogV1.SyntheticsApi
-	NotebooksClient  *datadogV1.NotebooksApi
-	MonitorsClient   *datadogV1.MonitorsApi
-	Auth             context.Context
+	SyntheticsClient  *datadogV1.SyntheticsApi
+	NotebooksClient   *datadogV1.NotebooksApi
+	MonitorsClient    *datadogV1.MonitorsApi
+	LogsMetricsClient *datadogV2.LogsMetricsApi
+	Auth              context.Context
 }
 
 // InitDatadogGenericClient initializes the Datadog Generic API Client and establishes credentials.
@@ -112,6 +114,7 @@ func InitDatadogGenericClient(logger logr.Logger, creds config.Creds) (DatadogGe
 	syntheticsClient := datadogV1.NewSyntheticsApi(apiClient)
 	notebooksClient := datadogV1.NewNotebooksApi(apiClient)
 	monitorsClient := datadogV1.NewMonitorsApi(apiClient)
+	logsMetricsClient := datadogV2.NewLogsMetricsApi(apiClient)
 
 	authV1, err := setupAuth(logger, creds)
 	if err != nil {
@@ -119,10 +122,11 @@ func InitDatadogGenericClient(logger logr.Logger, creds config.Creds) (DatadogGe
 	}
 
 	return DatadogGenericClient{
-		SyntheticsClient: syntheticsClient,
-		NotebooksClient:  notebooksClient,
-		MonitorsClient:   monitorsClient,
-		Auth:             authV1,
+		SyntheticsClient:  syntheticsClient,
+		NotebooksClient:   notebooksClient,
+		MonitorsClient:    monitorsClient,
+		LogsMetricsClient: logsMetricsClient,
+		Auth:              authV1,
 	}, nil
 }
 

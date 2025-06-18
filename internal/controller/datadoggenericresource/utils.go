@@ -64,6 +64,8 @@ func getHandler(resourceType v1alpha1.SupportedResourcesType) ResourceHandler {
 		return &SyntheticsAPITestHandler{}
 	case v1alpha1.SyntheticsBrowserTest:
 		return &SyntheticsBrowserTestHandler{}
+	case v1alpha1.LogsMetric:
+		return &LogsMetricsHandler{}
 	case mockSubresource:
 		return &MockHandler{}
 	default:

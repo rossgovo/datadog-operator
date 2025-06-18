@@ -16,6 +16,7 @@ var allowedCustomResourcesEnumMap = map[SupportedResourcesType]string{
 	Notebook:              "",
 	SyntheticsAPITest:     "",
 	SyntheticsBrowserTest: "",
+	LogsMetric:            "",
 	// mock_resource is used to mock the subresource in tests
 	"mock_resource": "",
 }

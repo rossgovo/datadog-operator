@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/DataDog/datadog-api-client-go/v2/api/datadogV1"
+	"github.com/DataDog/datadog-api-client-go/v2/api/datadogV2"
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
 	apiequality "k8s.io/apimachinery/pkg/api/equality"
@@ -39,6 +40,7 @@ type Reconciler struct {
 	datadogSyntheticsClient *datadogV1.SyntheticsApi
 	datadogNotebooksClient  *datadogV1.NotebooksApi
 	datadogMonitorsClient   *datadogV1.MonitorsApi
+	datadogLogsMetricsClient *datadogV2.LogsMetricsApi
 	datadogAuth             context.Context
 	scheme                  *runtime.Scheme
 	log                     logr.Logger
@@ -47,14 +49,15 @@ type Reconciler struct {
 
 func NewReconciler(client client.Client, ddClient datadogclient.DatadogGenericClient, scheme *runtime.Scheme, log logr.Logger, recorder record.EventRecorder) *Reconciler {
 	return &Reconciler{
-		client:                  client,
-		datadogSyntheticsClient: ddClient.SyntheticsClient,
-		datadogNotebooksClient:  ddClient.NotebooksClient,
-		datadogMonitorsClient:   ddClient.MonitorsClient,
-		datadogAuth:             ddClient.Auth,
-		scheme:                  scheme,
-		log:                     log,
-		recorder:                recorder,
+		client:                   client,
+		datadogSyntheticsClient:  ddClient.SyntheticsClient,
+		datadogNotebooksClient:   ddClient.NotebooksClient,
+		datadogMonitorsClient:    ddClient.MonitorsClient,
+		datadogLogsMetricsClient: ddClient.LogsMetricsClient,
+		datadogAuth:              ddClient.Auth,
+		scheme:                   scheme,
+		log:                      log,
+		recorder:                 recorder,
 	}
 }
 
